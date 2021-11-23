@@ -14,13 +14,13 @@ public class PazienteDTO {
 
 	private Long id;
 	
-	@NotBlank(message = "{denominazione.notblank}")
+	@NotBlank(message = "{nome.notblank}")
 	private String nome;
 	
-	@NotBlank(message = "{denominazione.notblank}")
+	@NotBlank(message = "{cognome.notblank}")
 	private String cognome;
 	
-	@NotBlank(message = "{denominazione.notblank}")
+	@NotBlank(message = "{codiceFiscale.notblank}")
 	private String codiceFiscale;
 	
 	private Date dateCreated;

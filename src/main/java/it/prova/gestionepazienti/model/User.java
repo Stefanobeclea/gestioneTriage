@@ -45,6 +45,20 @@ public class User {
 					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
 
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public User(Long id, String username, String nome, String cognome, Date dateCreated, StatoUtente stato) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+	}
+
 	public Long getId() {
 		return id;
 	}
