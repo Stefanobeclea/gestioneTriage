@@ -51,6 +51,16 @@ public class Paziente {
 		this.stato = stato;
 	}
 
+	public Paziente(Long id, String nome, String cognome, String codiceFiscale, Date dateCreated, StatoPaziente stato) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+	}
+
 	public Paziente(String nome, String cognome, String codiceFiscale, Date dateCreated, Dottore dottore,
 			StatoPaziente stato) {
 		super();

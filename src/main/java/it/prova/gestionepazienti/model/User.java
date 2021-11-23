@@ -1,9 +1,7 @@
 package it.prova.gestionepazienti.model;
 
-import java.util.Date;
-import java.util.HashSet;
+import java.util.Date; 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,9 +38,6 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato;
 
-	@ManyToMany
-	@JoinTable(name = "user_ruolo", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
-	private Set<Ruolo> ruoli = new HashSet<>(0);
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USERS_AUTHORITIES", joinColumns = {
@@ -88,14 +83,6 @@ public class User {
 
 	public void setStato(StatoUtente stato) {
 		this.stato = stato;
-	}
-
-	public Set<Ruolo> getRuoli() {
-		return ruoli;
-	}
-
-	public void setRuoli(Set<Ruolo> ruoli) {
-		this.ruoli = ruoli;
 	}
 
 	public String getUsername() {

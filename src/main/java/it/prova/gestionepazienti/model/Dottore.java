@@ -35,6 +35,14 @@ public class Dottore {
 		this.cognome = cognome;
 		this.codiceDipendente = codiceDipendente;
 		this.pzienteAttualmenteInVisita = pzienteAttualmenteInVisita;
+	} 
+
+	public Dottore(Long id, String nome, String cognome, String codiceDipendente) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceDipendente = codiceDipendente;
 	}
 
 	public Long getId() {
