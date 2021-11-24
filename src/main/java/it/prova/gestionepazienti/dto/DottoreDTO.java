@@ -25,7 +25,7 @@ public class DottoreDTO {
 	private String codiceDipendente;
 	
 	@JsonIgnoreProperties(value = { "dottore" })
-	private PazienteDTO pzienteAttualmenteInVisita;
+	private PazienteDTO pazienteAttualmenteInVisita;
 	
 	public DottoreDTO() {
 		// TODO Auto-generated constructor stub
@@ -64,11 +64,11 @@ public class DottoreDTO {
 	}
 
 	public PazienteDTO getPzienteAttualmenteInVisita() {
-		return pzienteAttualmenteInVisita;
+		return pazienteAttualmenteInVisita;
 	}
 
 	public void setPzienteAttualmenteInVisita(PazienteDTO pzienteAttualmenteInVisita) {
-		this.pzienteAttualmenteInVisita = pzienteAttualmenteInVisita;
+		this.pazienteAttualmenteInVisita = pzienteAttualmenteInVisita;
 	}
 
 	public DottoreDTO(Long id, @NotBlank(message = "{denominazione.notblank}") String nome,
@@ -80,7 +80,7 @@ public class DottoreDTO {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.codiceDipendente = codiceDipendente;
-		this.pzienteAttualmenteInVisita = pzienteAttualmenteInVisita;
+		this.pazienteAttualmenteInVisita = pzienteAttualmenteInVisita;
 	}
 
 	public DottoreDTO(Long id, @NotBlank(message = "{denominazione.notblank}") String nome,
@@ -103,13 +103,23 @@ public class DottoreDTO {
 	}
 	
 	public Dottore buildDottoreModel() {
-		return new Dottore(this.id ,this.nome, this.cognome, this.codiceDipendente);
+		
+		if(this.pazienteAttualmenteInVisita == null)
+			return new Dottore(this.id, this.nome, this.cognome, this.codiceDipendente,
+					null);
+		
+		return new Dottore(this.id, this.nome, this.cognome, this.codiceDipendente,
+				this.pazienteAttualmenteInVisita.buildPazienteModel());
 	}
 
-	public static DottoreDTO buildDottoreDTOFromModel(Dottore dottoreModel) {
-		DottoreDTO result = new DottoreDTO(dottoreModel.getId(), dottoreModel.getNome(),
-				dottoreModel.getCognome(),  dottoreModel.getCodiceDipendente());
-		return result;
+	public static DottoreDTO buildDottoreDTOFromModel(Dottore input) {
+		
+		if(input.getPazienteAttualmenteInVisita() == null)
+			return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
+					null);
+		
+		return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
+				PazienteDTO.buildPazienteDTOFromModel(input.getPazienteAttualmenteInVisita()));
 	}
 	public static List<DottoreDTO> createDottoreDTOListFromModelList(List<Dottore> modelListInput) {
 		return modelListInput.stream().map(dottoreEntity -> {

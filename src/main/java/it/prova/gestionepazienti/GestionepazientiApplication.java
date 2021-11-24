@@ -13,22 +13,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.prova.gestionepazienti.model.Authority;
 import it.prova.gestionepazienti.model.AuthorityName;
+import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.model.Paziente;
 import it.prova.gestionepazienti.model.StatoPaziente;
 import it.prova.gestionepazienti.model.StatoUtente;
 import it.prova.gestionepazienti.model.User;
 import it.prova.gestionepazienti.security.repository.AuthorityRepository;
 import it.prova.gestionepazienti.security.repository.UserRepository;
+import it.prova.gestionepazienti.service.DottoreService;
 import it.prova.gestionepazienti.service.PazienteService;
 
 @SpringBootApplication
 public class GestionepazientiApplication{
 
 	@Autowired
-	private PazienteService pazienteService;
+	PazienteService pazienteService;
+	@Autowired
+	DottoreService dottoreService;
 	
 	@Autowired
-	private UserRepository repository;
+	UserRepository repository;
 	@Autowired
 	AuthorityRepository authorityRepository;
 	@Autowired
@@ -42,7 +46,8 @@ public class GestionepazientiApplication{
 	public CommandLineRunner initTriage() {
 		return (args) -> {
 			
-			pazienteService.save(new Paziente("Francesco", "Totti", "FRNTOTT01",new Date(), StatoPaziente.IN_ATTESA_VISITA));
+			Paziente paziente = pazienteService.save(new Paziente("Francesco", "Totti", "FRNTOTT01",new Date(),
+					 StatoPaziente.IN_VISITA));
 			pazienteService.save(new Paziente("Pietro", "Lollo", "FRNTOTT01",new Date(), StatoPaziente.IN_ATTESA_VISITA));
 			pazienteService.save(new Paziente("Luigino", "Verdi", "FRNTOTT01",new Date(), StatoPaziente.RICOVERATO));
 			pazienteService.save(new Paziente("Marco", "Violi", "FRNTOTT01",new Date(), StatoPaziente.DIMESSO));
@@ -57,6 +62,12 @@ public class GestionepazientiApplication{
 			pazienteService.save(new Paziente("Carlos", "Pedana", "FRNTOTT01",new Date(), StatoPaziente.IN_ATTESA_VISITA));
 			pazienteService.save(new Paziente("Meme", "Solare", "FRNTOTT01",new Date(), StatoPaziente.DIMESSO));
 			
+			dottoreService.save(new Dottore("Francesco", "Totti", "01FRATO"));
+			dottoreService.save(new Dottore("Pietro", "Lollo", "01FRATO"));
+			dottoreService.save(new Dottore("Luigino", "Verdi", "01FRATO"));
+			dottoreService.save(new Dottore("Marco", "Violi", "01FRATO", pazienteService.get(1L)));	
+			
+			paziente.setDottore(dottoreService.get(4L));
 		User user = repository.findByUsername("admin").orElse(null);
 		if (user == null) {
 	

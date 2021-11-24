@@ -23,8 +23,16 @@ public class Dottore {
 	@Column(name = "codiceDipendente")
 	private String codiceDipendente;
 	@OneToOne
-	private Paziente pzienteAttualmenteInVisita;
+	private Paziente pazienteAttualmenteInVisita;
 	
+	public Paziente getPazienteAttualmenteInVisita() {
+		return pazienteAttualmenteInVisita;
+	}
+
+	public void setPazienteAttualmenteInVisita(Paziente pazienteAttualmenteInVisita) {
+		this.pazienteAttualmenteInVisita = pazienteAttualmenteInVisita;
+	}
+
 	public Dottore() {
 		// TODO Auto-generated constructor stub
 	}
@@ -35,7 +43,7 @@ public class Dottore {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.codiceDipendente = codiceDipendente;
-		this.pzienteAttualmenteInVisita = pzienteAttualmenteInVisita;
+		this.pazienteAttualmenteInVisita = pzienteAttualmenteInVisita;
 	} 
 
 	public Dottore(Long id, String nome, String cognome, String codiceDipendente) {
@@ -79,11 +87,11 @@ public class Dottore {
 	}
 
 	public Paziente getPzienteAttualmenteInVisita() {
-		return pzienteAttualmenteInVisita;
+		return pazienteAttualmenteInVisita;
 	}
 
 	public void setPzienteAttualmenteInVisita(Paziente pzienteAttualmenteInVisita) {
-		this.pzienteAttualmenteInVisita = pzienteAttualmenteInVisita;
+		this.pazienteAttualmenteInVisita = pzienteAttualmenteInVisita;
 	}
 
 	public Dottore(String nome, String cognome, String codiceDipendente, Paziente pzienteAttualmenteInVisita) {
@@ -91,7 +99,7 @@ public class Dottore {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.codiceDipendente = codiceDipendente;
-		this.pzienteAttualmenteInVisita = pzienteAttualmenteInVisita;
+		this.pazienteAttualmenteInVisita = pzienteAttualmenteInVisita;
 	}
 
 	public Dottore(String nome, String cognome, String codiceDipendente) {
