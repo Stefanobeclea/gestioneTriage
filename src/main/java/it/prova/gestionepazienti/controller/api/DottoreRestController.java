@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,7 +23,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import it.prova.gestionepazienti.dto.DottoreDTO;
 import it.prova.gestionepazienti.dto.DottoreRequestDTO;
 import it.prova.gestionepazienti.dto.DottoreResponseDTO;
+import it.prova.gestionepazienti.dto.DottoreDTO;
 import it.prova.gestionepazienti.exceptions.DottoreNotFoundException;
+import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.service.DottoreService;
 import reactor.core.publisher.Mono;
@@ -79,7 +84,7 @@ public class DottoreRestController {
 			throw new DottoreNotFoundException("Dottore not found con id: " + id);
 
 		dottoreInput.setId(id);
-		if(dottore.getPazienteAttualmenteInVisita() != null) {
+		if(dottore.getDottoreAttualmenteInVisita() != null) {
 			dottoreInput.setPzienteAttualmenteInVisita(dottoreInput.getPzienteAttualmenteInVisita());
 		}
 		
@@ -96,5 +101,15 @@ public class DottoreRestController {
 		
 		Dottore dottoreAggiornato = dottoreService.update(dottoreInput.buildDottoreModel());
 		return DottoreDTO.buildDottoreDTOFromModel(dottoreAggiornato);
+	}
+	
+	@PostMapping("/search")
+	public ResponseEntity<Page<Dottore>> searchAndPagination(@RequestBody DottoreDTO dottoreExample,
+			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
+			@RequestParam(defaultValue = "id") String sortBy) {
+
+		Page<Dottore> results = dottoreService.searchAndPaginate(dottoreExample.buildDottoreModel(), pageNo, pageSize, sortBy);
+
+		return new ResponseEntity<Page<Dottore>>(results, new HttpHeaders(), HttpStatus.OK);
 	}
 }
