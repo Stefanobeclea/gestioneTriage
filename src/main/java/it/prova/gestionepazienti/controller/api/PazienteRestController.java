@@ -1,5 +1,6 @@
 package it.prova.gestionepazienti.controller.api;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.prova.cartelleesattoriali.dto.PazienteDTO;
-import it.prova.paziente_rest.model.Paziente;
 import it.prova.gestionepazienti.dto.PazienteDTO;
 import it.prova.gestionepazienti.exceptions.IdNotNullForInsertException;
+import it.prova.gestionepazienti.exceptions.PazienteNotDimessoException;
 import it.prova.gestionepazienti.exceptions.PazienteNotFoundException;
 import it.prova.gestionepazienti.model.Paziente;
+import it.prova.gestionepazienti.model.StatoPaziente;
 import it.prova.gestionepazienti.service.PazienteService;
 
 @RestController
@@ -55,7 +56,8 @@ public class PazienteRestController {
 	public PazienteDTO createNew(@Valid @RequestBody PazienteDTO pazienteInput) {
 		if(pazienteInput.getId() != null)
 			throw new IdNotNullForInsertException("Non è ammesso fornire un id per la creazione");
-		
+		pazienteInput.setDateCreated(new Date());
+		pazienteInput.setStato(StatoPaziente.IN_ATTESA_VISITA);
 		Paziente pazienteInserito = pazienteService.save(pazienteInput.buildPazienteModel());
 		return PazienteDTO.buildPazienteDTOFromModel(pazienteInserito);
 	}
@@ -83,7 +85,8 @@ public class PazienteRestController {
 
 		if (paziente == null)
 			throw new PazienteNotFoundException("Paziente not found con id: " + id);
-
+		if (!paziente.getStato().equals(StatoPaziente.DIMESSO))
+			throw new PazienteNotDimessoException("Paziente non dimesso");
 		pazienteService.delete(paziente);
 	}
 	
