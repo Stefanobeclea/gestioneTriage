@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import it.prova.gestionepazienti.dto.DottoreDTO;
 import it.prova.gestionepazienti.dto.DottoreRequestDTO;
 import it.prova.gestionepazienti.dto.DottoreResponseDTO;
-import it.prova.gestionepazienti.dto.DottoreDTO;
 import it.prova.gestionepazienti.exceptions.DottoreNotFoundException;
-import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.service.DottoreService;
 import reactor.core.publisher.Mono;
@@ -84,7 +83,7 @@ public class DottoreRestController {
 			throw new DottoreNotFoundException("Dottore not found con id: " + id);
 
 		dottoreInput.setId(id);
-		if(dottore.getDottoreAttualmenteInVisita() != null) {
+		if(dottore.getPazienteAttualmenteInVisita() != null) {
 			dottoreInput.setPzienteAttualmenteInVisita(dottoreInput.getPzienteAttualmenteInVisita());
 		}
 		
@@ -111,5 +110,26 @@ public class DottoreRestController {
 		Page<Dottore> results = dottoreService.searchAndPaginate(dottoreExample.buildDottoreModel(), pageNo, pageSize, sortBy);
 
 		return new ResponseEntity<Page<Dottore>>(results, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void delete(@PathVariable(required = true) Long id) {
+		Dottore dottore = dottoreService.get(id);
+
+		if (dottore == null)
+			throw new DottoreNotFoundException("Dottore not found con id: " + id);
+		
+		ResponseEntity<DottoreResponseDTO> response = webClient.delete()
+				.uri("/"+dottore.getCodiceDipendente())
+				.retrieve()
+				.toEntity(DottoreResponseDTO.class)
+				.block();
+		
+		if(response.getStatusCode() == HttpStatus.OK)
+			dottoreService.delete(dottore);
+		else
+			throw new RuntimeException("Errore nella cancellazione della voce tramite api esterna!!!");
+		
 	}
 }
