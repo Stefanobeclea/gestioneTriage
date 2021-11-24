@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,5 +55,21 @@ public class PazienteRestController {
 		
 		Paziente pazienteInserito = pazienteService.save(pazienteInput.buildPazienteModel());
 		return PazienteDTO.buildPazienteDTOFromModel(pazienteInserito);
+	}
+	
+	@PutMapping("/{id}")
+	public PazienteDTO update(@Valid @RequestBody PazienteDTO pazienteInput, @PathVariable(required = true) Long id) {
+		Paziente paziente = pazienteService.get(id);
+
+		if (paziente == null)
+			throw new PazienteNotFoundException("Paziente not found con id: " + id);
+
+		pazienteInput.setId(id);
+		pazienteInput.setStato(paziente.getStato());
+		pazienteInput.setDateCreated(paziente.getDateCreated());
+		if(paziente.getDottore() != null)
+			pazienteInput.setDottore(paziente.getDottore());
+		Paziente pazienteAggiornato = pazienteService.update(pazienteInput.buildPazienteModel());
+		return PazienteDTO.buildPazienteDTOFromModel(pazienteAggiornato);
 	}
 }
