@@ -54,7 +54,7 @@ public class AuthenticationRestController {
 
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, 
 												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
+												 
 												 roles));
 	}
 

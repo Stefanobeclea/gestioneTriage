@@ -1,6 +1,7 @@
 package it.prova.gestionepazienti.security.jwt.dto;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -11,24 +12,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import it.prova.gestionepazienti.model.StatoUtente;
 import it.prova.gestionepazienti.model.User;
 
 public class JwtUserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
+	private final String nome;
+	private final String cognome;
 	private final String username;
 	private final String password;
-	private final String email;
+	private final Date dateCreated;
+	private final StatoUtente stato;
+	
 	private final Collection<? extends GrantedAuthority> authorities;
-	private final boolean enabled;
 
-	public JwtUserDetailsImpl(String username, String password, String email, Collection<? extends GrantedAuthority> authorities,
-			boolean enabled) {
+	public JwtUserDetailsImpl(String nome,String cognome,String username, String password, Date dateCreated,StatoUtente stato, Collection<? extends GrantedAuthority> authorities
+			) {
+		this.nome = nome;
+		this.cognome = cognome;
 		this.username = username;
 		this.password = password;
-		this.email = email;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
 		this.authorities = authorities;
-		this.enabled = enabled;
 	}
 	
 	public static JwtUserDetailsImpl build(User user) {
@@ -37,11 +44,13 @@ public class JwtUserDetailsImpl implements UserDetails {
                 .collect(Collectors.toList());
 		
         return new JwtUserDetailsImpl(
+        		user.getNome(),
+        		user.getCognome(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getEmail(),
-                authorities,
-                user.getEnabled()
+                user.getDateCreated(),
+                user.getStato(),
+                authorities
         );
     }
 
@@ -50,8 +59,20 @@ public class JwtUserDetailsImpl implements UserDetails {
 		return username;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getNome() {
+		return nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public StatoUtente getStato() {
+		return stato;
 	}
 
 	@JsonIgnore
@@ -82,11 +103,6 @@ public class JwtUserDetailsImpl implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return enabled;
-	}
 	
 	@Override
 	public boolean equals(Object o) {
@@ -96,6 +112,12 @@ public class JwtUserDetailsImpl implements UserDetails {
 			return false;
 		JwtUserDetailsImpl user = (JwtUserDetailsImpl) o;
 		return Objects.equals(username, user.username);
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
