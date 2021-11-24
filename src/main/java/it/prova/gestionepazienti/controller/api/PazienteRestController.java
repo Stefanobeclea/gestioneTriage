@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.prova.cartelleesattoriali.dto.PazienteDTO;
+import it.prova.paziente_rest.model.Paziente;
 import it.prova.gestionepazienti.dto.PazienteDTO;
 import it.prova.gestionepazienti.exceptions.IdNotNullForInsertException;
 import it.prova.gestionepazienti.exceptions.PazienteNotFoundException;
@@ -83,5 +85,15 @@ public class PazienteRestController {
 			throw new PazienteNotFoundException("Paziente not found con id: " + id);
 
 		pazienteService.delete(paziente);
+	}
+	
+	@PostMapping("/search")
+	public ResponseEntity<Page<Paziente>> searchAndPagination(@RequestBody PazienteDTO pazienteExample,
+			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
+			@RequestParam(defaultValue = "id") String sortBy) {
+
+		Page<Paziente> results = pazienteService.searchAndPaginate(pazienteExample.buildPazienteModel(), pageNo, pageSize, sortBy);
+
+		return new ResponseEntity<Page<Paziente>>(results, new HttpHeaders(), HttpStatus.OK);
 	}
 }
