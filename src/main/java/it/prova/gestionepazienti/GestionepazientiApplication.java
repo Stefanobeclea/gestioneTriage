@@ -68,6 +68,8 @@ public class GestionepazientiApplication{
 			dottoreService.save(new Dottore("Marco", "Violi", "01FRATO", pazienteService.get(1L)));	
 			
 			paziente.setDottore(dottoreService.get(4L));
+			
+			
 		User user = repository.findByUsername("admin").orElse(null);
 		if (user == null) {
 	
