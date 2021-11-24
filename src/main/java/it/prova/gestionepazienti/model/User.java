@@ -1,4 +1,4 @@
-package it.prova.gestionepazienti.model;
+	package it.prova.gestionepazienti.model;
 
 import java.util.Date;   
 import java.util.List;
