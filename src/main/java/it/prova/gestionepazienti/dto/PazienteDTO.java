@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.model.Paziente;
 import it.prova.gestionepazienti.model.StatoPaziente;
 
@@ -32,7 +31,7 @@ public class PazienteDTO {
 	private StatoPaziente stato;
 	
 	@JsonIgnoreProperties(value = { "pzienteAttualmenteInVisita" })
-	private Dottore dottore;
+	private DottoreDTO dottore;
 	
 	public PazienteDTO() {
 		// TODO Auto-generated constructor stub
@@ -40,7 +39,7 @@ public class PazienteDTO {
 
 	public PazienteDTO(Long id, @NotBlank(message = "{denominazione.notblank}") String nome,
 			@NotBlank(message = "{denominazione.notblank}") String cognome,
-			@NotBlank(message = "{denominazione.notblank}") String codiceFiscale, Date dateCreated, Dottore dottore) {
+			@NotBlank(message = "{denominazione.notblank}") String codiceFiscale, Date dateCreated, DottoreDTO dottore) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -53,7 +52,7 @@ public class PazienteDTO {
 	public PazienteDTO(@NotBlank(message = "{denominazione.notblank}") String nome,
 			@NotBlank(message = "{denominazione.notblank}") String cognome,
 			@NotBlank(message = "{denominazione.notblank}") String codiceFiscale, StatoPaziente stato, Date dateCreated,
-			Dottore dottore) {
+			DottoreDTO dottore) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
@@ -170,11 +169,11 @@ public class PazienteDTO {
 		this.dateCreated = dateCreated;
 	}
 
-	public Dottore getDottore() {
+	public DottoreDTO getDottoreDTO() {
 		return dottore;
 	}
 
-	public void setDottore(Dottore dottore) {
+	public void setDottoreDTO(DottoreDTO dottore) {
 		this.dottore = dottore;
 	}
 	

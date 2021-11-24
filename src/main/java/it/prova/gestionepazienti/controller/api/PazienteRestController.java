@@ -1,6 +1,6 @@
 package it.prova.gestionepazienti.controller.api;
 
-import java.util.Date;
+import java.util.Date; 
 import java.util.List;
 
 import javax.validation.Valid;
@@ -72,8 +72,9 @@ public class PazienteRestController {
 		pazienteInput.setId(id);
 		pazienteInput.setStato(paziente.getStato());
 		pazienteInput.setDateCreated(paziente.getDateCreated());
-		if(paziente.getDottore() != null)
-			pazienteInput.setDottore(paziente.getDottore());
+		if(paziente.getDottore() != null) {
+			pazienteInput.setDottoreDTO(pazienteInput.getDottoreDTO());
+		}
 		Paziente pazienteAggiornato = pazienteService.update(pazienteInput.buildPazienteModel());
 		return PazienteDTO.buildPazienteDTOFromModel(pazienteAggiornato);
 	}
