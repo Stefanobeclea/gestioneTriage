@@ -84,7 +84,7 @@ public class DottoreRestController {
 		}
 		
 		ResponseEntity<DottoreResponseDTO> response = webClient.put()
-				.uri("")
+				.uri("/"+dottoreInput.getCodiceDipendente())
 				.body(Mono.just(new DottoreRequestDTO(dottoreInput.getNome(), dottoreInput.getCognome(),
 						dottoreInput.getCodiceDipendente())), DottoreRequestDTO.class)
 				.retrieve()
@@ -92,7 +92,7 @@ public class DottoreRestController {
 				.block();
 		
 		if(response.getStatusCode() != HttpStatus.OK)
-			throw new RuntimeException("Errore nella creazione della nuova voce tramite api esterna!!!");
+			throw new RuntimeException("Errore nella modifica della nuova voce tramite api esterna!!!");
 		
 		Dottore dottoreAggiornato = dottoreService.update(dottoreInput.buildDottoreModel());
 		return DottoreDTO.buildDottoreDTOFromModel(dottoreAggiornato);
