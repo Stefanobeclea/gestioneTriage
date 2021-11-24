@@ -24,17 +24,19 @@ public class JwtUserDetailsImpl implements UserDetails {
 	private final String password;
 	private final Date dateCreated;
 	private final StatoUtente stato;
+	private final boolean enabled;
 	
 	private final Collection<? extends GrantedAuthority> authorities;
 
 	public JwtUserDetailsImpl(String nome,String cognome,String username, String password, Date dateCreated,StatoUtente stato, Collection<? extends GrantedAuthority> authorities
-			) {
+			, boolean enabled) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.username = username;
 		this.password = password;
 		this.dateCreated = dateCreated;
 		this.stato = stato;
+		this.enabled = enabled;
 		this.authorities = authorities;
 	}
 	
@@ -50,7 +52,8 @@ public class JwtUserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 user.getDateCreated(),
                 user.getStato(),
-                authorities
+                authorities,
+                user.getEnabled()
         );
     }
 
@@ -114,10 +117,10 @@ public class JwtUserDetailsImpl implements UserDetails {
 		return Objects.equals(username, user.username);
 	}
 
-	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return enabled;
 	}
+
+	
 
 }

@@ -1,6 +1,6 @@
 package it.prova.gestionepazienti.service;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import javax.persistence.criteria.Predicate;
@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 import it.prova.gestionepazienti.exceptions.IdNotNullForInsertException;
 import it.prova.gestionepazienti.exceptions.UserNotFoundException;
 import it.prova.gestionepazienti.model.User;
-import it.prova.gestionepazienti.repository.user.UserRepository;
+import it.prova.gestionepazienti.security.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{

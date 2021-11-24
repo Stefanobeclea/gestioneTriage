@@ -1,6 +1,6 @@
 package it.prova.gestionepazienti.model;
 
-import java.util.Date; 
+import java.util.Date;   
 import java.util.List;
 
 import javax.persistence.Column;
@@ -37,11 +37,14 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato;
+	
+	@Column(name = "enable")
+	private Boolean enabled;
 
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USERS_AUTHORITIES", joinColumns = {
-			@JoinColumn(name = "USER_USERNAME", referencedColumnName = "USERNAME") }, inverseJoinColumns = {
+			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
 
@@ -49,6 +52,14 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public User(Long id, String username, String nome, String cognome, Date dateCreated, StatoUtente stato) {
 		super();
 		this.id = id;

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +22,7 @@ public class Dottore {
 	private String cognome;
 	@Column(name = "codiceDipendente")
 	private String codiceDipendente;
-	@Column(name = "pzienteAttualmenteInVisita")
+	@OneToOne
 	private Paziente pzienteAttualmenteInVisita;
 	
 	public Dottore() {

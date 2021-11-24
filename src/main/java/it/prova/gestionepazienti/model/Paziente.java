@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,7 +30,7 @@ public class Paziente {
 	@Column(name = "dateCreated")
 	private Date dateCreated;
 	
-	@Column(name = "dottore")
+	@OneToOne
 	private Dottore dottore;
 	
 	@Enumerated(EnumType.STRING)
