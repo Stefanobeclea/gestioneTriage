@@ -5,8 +5,12 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import it.prova.gestionepazienti.model.Dottore;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DottoreDTO {
 
 	private Long id;
@@ -20,6 +24,7 @@ public class DottoreDTO {
 	@NotBlank(message = "{denominazione.notblank}")
 	private String codiceDipendente;
 	
+	@JsonIgnoreProperties(value = { "dottore" })
 	private PazienteDTO pzienteAttualmenteInVisita;
 	
 	public DottoreDTO() {

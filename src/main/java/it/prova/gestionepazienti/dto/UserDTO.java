@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import it.prova.gestionepazienti.model.User;
 import it.prova.gestionepazienti.model.StatoUtente;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
 	private Long id;

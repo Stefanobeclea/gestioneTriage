@@ -6,10 +6,14 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import it.prova.gestionepazienti.model.Dottore;
 import it.prova.gestionepazienti.model.Paziente;
 import it.prova.gestionepazienti.model.StatoPaziente;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PazienteDTO {
 
 	private Long id;
@@ -27,6 +31,7 @@ public class PazienteDTO {
 	
 	private StatoPaziente stato;
 	
+	@JsonIgnoreProperties(value = { "pzienteAttualmenteInVisita" })
 	private Dottore dottore;
 	
 	public PazienteDTO() {
